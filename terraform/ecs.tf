@@ -39,13 +39,15 @@ resource "aws_ecs_service" "main" {
   desired_count   = 1
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
-    weight            = 1
+    weight            = 2
   }
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
     weight            = 1
   }
+
+  
 
   network_configuration {
     subnets          = aws_subnet.public[*].id
@@ -58,4 +60,13 @@ resource "aws_ecs_service" "main" {
     container_name   = "${var.app_name}-container"
     container_port   = var.container_port
   }
+# Enable Auto-Scaling
+  depends_on = [aws_appautoscaling_target.ecs_target]
+}
+resource "aws_appautoscaling_target" "ecs_target" {
+  max_capacity      = 10
+  min_capacity      = 1
+  resource_id       = "service/${aws_ecs_cluster.main.id}/${aws_ecs_service.main.id}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace = "ecs"
 }
