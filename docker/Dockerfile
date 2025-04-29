@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:21-alpine
 
 # Install git and other build dependencies
 RUN apk add --no-cache git bash python3 make g++ && \
