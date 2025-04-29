@@ -1,4 +1,4 @@
-FROM node:21-alpine
+FROM node:18-alpine
 
 # Install git and other build dependencies
 RUN apk add --no-cache git bash python3 make g++ && \
@@ -8,7 +8,7 @@ RUN apk add --no-cache git bash python3 make g++ && \
 WORKDIR /app
 
 # Clone Strapi
-RUN git clone https://github.com/karthik1434/task-8.git .
+RUN git clone https://github.com/karthik1434/my-strapi-project.git .
 
 # Install dependencies using npm
 RUN npm install
