@@ -60,8 +60,6 @@ resource "aws_ecs_service" "main" {
     container_name   = "${var.app_name}-container"
     container_port   = var.container_port
   }
-# Enable Auto-Scaling
-  depends_on = [aws_appautoscaling_target.ecs_target]
 }
 resource "aws_appautoscaling_target" "ecs_target" {
   max_capacity      = 10
